@@ -1,0 +1,73 @@
+﻿@model TilleComm.Models.ProductsVM
+
+@{
+    ViewBag.Title = "Index";
+    List<int> lst = new List<int>();
+    string tempDataJoin = "";
+    if (TempData["SelectedProducts"] != null)
+    {
+        lst = (List<int>)TempData["SelectedProducts"];
+        TempData["SelectedProducts"] = lst;
+        tempDataJoin = string.Join(",", lst);
+    }
+}
+
+<h2>Index</h2>
+
+@{
+    <div class="row">
+        <div class="col-md-7">
+            <p id="pMyCartItemsCount">My Cart Items(@lst.Count())</p>
+        </div>
+        <div class="col-md-1">
+            <span><a href="/Home/PlaceOrder">Go to Cart</a></span>
+        </div>
+    </div>
+    if (Model != null && Model.Products != null && Model.Products.Count() > 0)
+    {
+        foreach (var item in Model.Products)
+        {
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-4">
+                    <b><p>@item.ProductName</p></b>
+                    <p>@item.Description</p><br />
+                </div>
+                <div class="col-md-1">
+                    <p>$@item.Price</p>
+                </div>
+                <div class="col-md-1">
+                    <p>
+                        @{
+                            string btnId = "btnId" + item.Id;
+
+                           
+
+                        }
+                        <input id="@btnId" type="button" class="btn btn-primary" value="Add to Cart" onclick="AddtoCart(@item.Id, this)" />
+                    </p>
+
+
+                </div>
+            </div>
+                                }
+                            }
+}
+<script src="~/scripts/common/common.js"></script>
+<script>
+    var abc = '@tempDataJoin';
+    window.onload = function (e) {
+        var tmp = abc.split(',');
+        for (var i = 0; i < tmp.length; i++) {
+            $('#btnId' + tmp[i]).attr("onclick", "RemoveFromCart(" + tmp[i] + ", this)");
+            $('#btnId' + tmp[i]).attr("value", "Remove from Cart");
+            $('#btnId' + tmp[i]).attr("class", "btn btn-danger");
+        }
+    }
+    
+
+
+</script>
+

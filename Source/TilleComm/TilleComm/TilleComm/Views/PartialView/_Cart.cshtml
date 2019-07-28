@@ -1,0 +1,70 @@
+﻿@model TilleComm.Models.SelectedProductVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+   
+    if (Model != null && Model.MyProduct != null && Model.MyProduct.Products.Count() > 0)
+    {
+        foreach (var item in Model.MyProduct.Products)
+        {
+
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-4">
+                    <b><p>@item.MyProductDetails.ProductName</p></b>
+                    <p>@item.MyProductDetails.Description</p><br />
+                </div>
+                <div class="col-md-1">
+                    <p>$@item.MyProductDetails.Price</p>
+                </div>
+                <div class="col-md-1">
+                    <p>
+                        @{ 
+                            string txtId = "txt"+item.ProductId;
+                        }
+                        <span><input class="txtFindProduct" data-productid="@item.ProductId" type="text" value="@item.Quantity" id="@txtId" /><button onclick="IncrementProduct(@item.ProductId,'@txtId')">+</button><button onclick="DecrementProduct(@item.ProductId,'@txtId')">-</button></span>
+                    </p>
+
+
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4">
+                <b>Total Price</b>
+            </div>
+            <div class="col-md-1">
+                $@Model.MyProduct.TotalPrice
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4">
+                <b>Final Price after Discount</b>
+            </div>
+            <div class="col-md-1">
+                <b> $@Model.MyProduct.DiscountedPrice</b>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <p>You cart looks empty !</p>
+    }
+}
+<script src="~/scripts/common/common.js"></script>
+
+
